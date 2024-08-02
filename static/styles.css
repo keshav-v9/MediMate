@@ -172,6 +172,11 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.centered-title {
+    text-align: center;
+    margin-top: 20px;
+}
+
 .centered-description {
     text-align: center;
     margin-top: 10px;
@@ -212,4 +217,5 @@ body {
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
 
