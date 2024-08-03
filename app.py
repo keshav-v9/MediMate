@@ -64,14 +64,14 @@ def chat():
         return get_schedule(question, chat_history)  
     else:  
         return render_template("schedule.html")  
-    
+
 THERAPY_PROMPT = "You are a mental health support chatbot that provides support to users. You should provide empathetic responses to users and help them feel better. You should also provide resources to help them get the support they need. "
 
-def get_support(question, chat_history):  
+def get_support(thoughts, chat_history):  
     # Create the message history  
     messages = [{"role": "system", "content": THERAPY_PROMPT }]  
     messages.extend(chat_history)  
-    messages.append({"role": "user", "content": question})  
+    messages.append({"role": "user", "content": thoughts })  
   
     response = client.chat.completions.create(  
         model=MODEL_NAME,  
@@ -86,9 +86,9 @@ def get_support(question, chat_history):
 @app.route('/mental-health-support',methods=['GET', 'POST'])  
 def mhsupport():  
     if request.method == 'POST':  
-        question = request.form.get("question")  
+        thoughts = request.form.get("thoughts")  
         chat_history = request.form.get("chat_history", [])  
-        return get_support(question, chat_history)  
+        return get_support(thoughts, chat_history)  
     else:  
         return render_template("mhs.html")  
   
