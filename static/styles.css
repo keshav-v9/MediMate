@@ -24,18 +24,6 @@
     align-self: flex-end;
 }
 
-.centered-title {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.centered-description {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 1.2em;
-    color: #555;
-}
-
 .response {
     width: 80%;
     border-bottom-left-radius: 0px;
@@ -71,110 +59,18 @@ input {
 #chat-send {
     padding-left: 10px;
     padding-right: 10px;
-}body {
-    font-family: Arial, sans-serif;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #f8f8f8;
-    border-bottom: 1px solid #ddd;
-}
-
-.nav-links {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-.nav-links li {
-    margin-left: 20px;
-}
-
-.nav-links .button {
-    text-decoration: none;
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.nav-links .button:hover {
-    background-color: #0056b3;
-}
-body {
-    font-family: Arial, sans-serif;
-}
-
-#content {
-    padding: 20px;
-}
-
-.output {
-    margin-top: 20px;
-}
-
-.entry-form {
-    margin-top: 20px;
-}
-
-.message {
-    background-color: #7dbeff;
-    border-radius: 5px;
-    margin: 5px;
-    padding: 5px;
-}
-
-.question {
-    width: 80%;
-    background-color: #d7dbdb;
-    border-bottom-right-radius: 0px;
-    align-self: flex-end;
-}
-
-.response {
-    width: 80%;
-    border-bottom-left-radius: 0px;
-    align-self: flex-start;
-}
-
-#chat-form {
-    margin-top: 10px;
-    display: flex;
-    width: 60%;
-}
-
-#ask-form {
-    display: flex;
-    width: 60%;
-}
-
-input {
-    margin: 5px;
-    padding: 2px;
-}
-
-#question {
-    flex-grow: 4
-}
-
-#chat-send {
-    padding-left: 10px;
-    padding-right: 10px;
 }
 
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f9; /* Light background color for a clean look */
+    color: #333; /* Dark text color for readability */
 }
 
 .centered-title {
     text-align: center;
     margin-top: 20px;
+    color: #007bff; /* Medical-related blue color */
 }
 
 .centered-description {
@@ -210,7 +106,7 @@ body {
 .button {
     text-decoration: none;
     padding: 10px 15px;
-    background-color: #f03964;
+    background-color: #007bff; /* Medical-related blue color */
     color: white;
     border-radius: 5px;
     border: none;
@@ -218,4 +114,6 @@ body {
     transition: background-color 0.3s;
 }
 
-
+.button:hover {
+    background-color: #0056b3; /* Darker blue for hover effect */
+}
