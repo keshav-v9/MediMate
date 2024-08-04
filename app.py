@@ -14,7 +14,10 @@ MODEL_NAME = "gpt-35-turbo"
 client = AzureOpenAI(api_key=AOAI_KEY,azure_endpoint=AOAI_ENDPOINT,api_version="2024-05-01-preview")  
   
 SCHEDULE_PROMPT = "You are a helpful schedule creator that creates schedules based on tasks. List out these schedules with bullet points. Make sure to write each task on a new line with the time slot preceeding the task. Makse sure that the schedule reduces stress and overworking. "
-  
+THERAPY_PROMPT = "You are a mental health support chatbot that provides support to users. You should provide empathetic responses to users and help them feel better. You should also provide resources to help them get the support they need. "
+
+
+
 # Function to get AI response with context  
 def get_schedule(question, chat_history):  
     # Create the message history  
@@ -24,7 +27,7 @@ def get_schedule(question, chat_history):
   
     response = client.chat.completions.create(  
         model=MODEL_NAME,  
-        temperature=0.2,  
+        temperature=0.7,  
         n=1,  
         messages=messages,  
     )  
@@ -47,8 +50,8 @@ def a_live():
     return "Alive!"  
   
 
-@app.route('/contextless-message', methods=['POST'])  
-def contextless_message():  
+@app.route('/schedule-message', methods=['POST'])  
+def schedule_message():  
     data = request.json  
     question = data['message']  
     chat_history = data.get('context', [])  
@@ -56,6 +59,16 @@ def contextless_message():
     return jsonify({"resp": resp})  
     #return {"resp": resp}
   
+@app.route('/therapy-message', methods=['POST'])  
+def therapy_message():  
+    data = request.json  
+    question = data['message']  
+    chat_history = data.get('context', [])  
+    resp = get_support(question, chat_history)  
+    return jsonify({"resp": resp})  
+    #return {"resp": resp}
+
+
 @app.route('/schedule', methods=['GET', 'POST'])  
 def chat():  
     if request.method == 'POST':  
@@ -65,7 +78,6 @@ def chat():
     else:  
         return render_template("schedule.html")  
 
-THERAPY_PROMPT = "You are a mental health support chatbot that provides support to users. You should provide empathetic responses to users and help them feel better. You should also provide resources to help them get the support they need. "
 
 def get_support(thoughts, chat_history):  
     # Create the message history  
