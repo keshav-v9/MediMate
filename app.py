@@ -13,7 +13,7 @@ MODEL_NAME = "gpt-35-turbo"
 # Set up the client for AI Chat  
 client = AzureOpenAI(api_key=AOAI_KEY,azure_endpoint=AOAI_ENDPOINT,api_version="2024-05-01-preview")  
   
-SCHEDULE_PROMPT = "You are a helpful schedule creator that creates schedules based on tasks. List out these schedules with bullet points. Make sure to write each task on a new line with the time slot preceeding the task. Makse sure that the schedule reduces stress and overworking. "
+SCHEDULE_PROMPT = "You are a helpful schedule creator that creates schedules based on tasks. Make sure to write each task on a new line with the time slot preceeding the task. Makse sure that the schedule reduces stress and overworking by adding 10min slots for breaks every 2 hours. Write each task on a new line.  "
 THERAPY_PROMPT = "You are a mental health support chatbot that provides support to users. You should provide empathetic responses to users and help them feel better. You should also provide resources to help them get the support they need. "
 
 
@@ -27,7 +27,7 @@ def get_schedule(question, chat_history):
   
     response = client.chat.completions.create(  
         model=MODEL_NAME,  
-        temperature=0.7,  
+        temperature=1,  
         n=1,  
         messages=messages,  
     )  
