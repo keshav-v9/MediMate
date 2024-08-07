@@ -14,7 +14,7 @@ MODEL_NAME = "gpt-35-turbo"
 client = AzureOpenAI(api_key=AOAI_KEY,azure_endpoint=AOAI_ENDPOINT,api_version="2024-05-01-preview")  
   
 SCHEDULE_PROMPT = "You are a helpful schedule creator that creates schedules based on tasks. Make sure to write each task on a new line with the time slot preceeding the task. Makse sure that the schedule reduces stress and overworking by adding 10min slots for breaks every 2 hours. Write each task on a new line.  "
-THERAPY_PROMPT = "You are a mental health support chatbot that provides support to users. You should provide empathetic responses to users and help them feel better. You should also provide resources to help them get the support they need. "
+THERAPY_PROMPT = "You are a mental health support chatbot that provides support to users. You should provide empathetic responses to users and help them feel better. You should also provide resources to help them get the support they need. Do not say that you cannot help but offer support. "
 
 
 
@@ -103,6 +103,45 @@ def mhsupport():
         return get_support(thoughts, chat_history)  
     else:  
         return render_template("mhs.html")  
+    
+DOCCUMENTATION_PROMPT ="You are a documentation chatbot that provides support to users. You should take the given text or voice recording and filter it to only have the important medical information and then organize it into its most important component. Based on the given symptoms provided by the user, use predictive analytics to foresee potential patient issues and alert nurses in advance. Do not do anything else other than organizing and requesting more information. Be educational towards the patient and assist them in their needs. At the end of each message notify them that the info is now in the EHR database and that a nurse has been notified."
+
+def get_doccuments(thoughts, chat_history):  
+    # Create the message history  
+    messages = [{"role": "system", "content": DOCCUMENTATION_PROMPT }]  
+    messages.extend(chat_history)  
+    messages.append({"role": "user", "content": thoughts })  
+  
+    response = client.chat.completions.create(  
+        model=MODEL_NAME,  
+        temperature=0.2,  
+        n=1,  
+        messages=messages,  
+    )  
+    answer = response.choices[0].message.content  
+    return answer  
+
+
+@app.route('/doccumentation-message', methods=['POST'])  
+def doccumentation_message():  
+    data = request.json  
+    question = data['message']  
+    chat_history = data.get('context', [])  
+    resp = get_doccuments(question, chat_history)  
+    return jsonify({"resp": resp})  
+    #return {"resp": resp}
+
+
+
+@app.route('/doccumentation',methods=['GET', 'POST'])  
+def efcd():  
+    if request.method == 'POST':  
+        thoughts = request.form.get("thoughts")  
+        chat_history = request.form.get("chat_history", [])  
+        return get_doccuments(thoughts, chat_history)  
+    else:  
+        return render_template("efc.html")  
+    
   
 @app.errorhandler(404)  
 def handle_404(e):  

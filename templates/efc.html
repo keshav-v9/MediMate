@@ -1,6 +1,6 @@
 <!doctype html>  
 <head>  
-    <title>Automated Scheduling and Shift Management - M.A.I.D.</title>  
+    <title>Patient tool - M.A.I.D.</title>  
     <link href="/static/styles.css" rel="stylesheet" type="text/css">  
 </head>  
 <body>  
@@ -11,10 +11,10 @@
             </ul>
         </nav>
         <header>
-            <h1 class="centered-title">Automated Scheduling and Shift Management</h1>
+            <h1 class="centered-title">Patient Tool</h1>
 
         </header>
-        <p class="centered-description">Enter your tasks for today to get an optimized schedule</p>
+        <p class="centered-description">This chatbot allows for efficient doccumentation as well patient monitoring, alerts, and education.</p>
         <div id="chat-output" class="output"></div>  
         <div class="entry-form">  
             <form action="" method="post" id="chat-form">  
@@ -50,7 +50,7 @@
         output.innerHTML += "<div class='message question'>" + msg + "</div>";  
   
         // Send the POST request using fetch  
-        fetch("/schedule-message", {  
+        fetch("/doccumentation-message", {  
             method: "POST",  
             headers: {  
                 "Content-Type": "application/json"  
