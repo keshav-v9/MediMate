@@ -13,7 +13,7 @@ MODEL_NAME = "gpt-35-turbo"
 # Set up the client for AI Chat  
 client = AzureOpenAI(api_key=AOAI_KEY,azure_endpoint=AOAI_ENDPOINT,api_version="2024-05-01-preview")  
   
-SCHEDULE_PROMPT = "You are a helpful schedule creator that creates schedules based on tasks. Make sure to write each task on a new line with the time slot preceeding the task. Makse sure that the schedule reduces stress and overworking by adding 10min slots for breaks every 2 hours. Write each task on a new line.  "
+SCHEDULE_PROMPT = "You are a helpful schedule creator that creates schedules based on tasks. Make sure to write each task on a new line with the time slot preceeding the task. Add /n at the end of each task. Make sure that the schedule reduces stress and overworking by adding 10min slots for breaks every 2 hours."
 THERAPY_PROMPT = "You are a mental health support chatbot that provides support to users. You should provide empathetic responses to users and help them feel better. You should also provide resources to help them get the support they need. Do not say that you cannot help but offer support. "
 
 
@@ -142,6 +142,44 @@ def efcd():
     else:  
         return render_template("efc.html")  
     
+
+DIAGNOSIS_PROMPT = "You are an assistant that will be given some symptoms and suggest what the diagnosis could be. Do not give any other suggestions other than the possible diagnoses."
+
+
+def get_decision(thoughts, chat_history):  
+    # Create the message history  
+    messages = [{"role": "system", "content": DIAGNOSIS_PROMPT }]  
+    messages.extend(chat_history)  
+    messages.append({"role": "user", "content": thoughts })  
+  
+    response = client.chat.completions.create(  
+        model=MODEL_NAME,  
+        temperature=0.2,  
+        n=1,  
+        messages=messages,  
+    )  
+    answer = response.choices[0].message.content  
+    return answer  
+
+
+@app.route('/decision-message', methods=['POST'])  
+def decision_message():  
+    data = request.json  
+    question = data['message']  
+    chat_history = data.get('context', [])  
+    resp = get_decision(question, chat_history)  
+    return jsonify({"resp": resp})  
+    #return {"resp": resp}
+
+
+@app.route('/decision-support',methods=['GET', 'POST'])  
+def decision():  
+    if request.method == 'POST':  
+        thoughts = request.form.get("thoughts")  
+        chat_history = request.form.get("chat_history", [])  
+        return get_decision(thoughts, chat_history)  
+    else:  
+        return render_template("decision.html")  
   
 @app.errorhandler(404)  
 def handle_404(e):  
