@@ -19,6 +19,8 @@
         <div class="entry-form">  
             <form action="" method="post" id="chat-form">  
                 <input type="text" name="question" id="question" placeholder="Enter your question?" required />  
+                <button type="button" onclick="startRecording()">Start Recording</button>
+
                 <input type="button" value="Send" id="chat-send"/>  
             </form>  
         </div>  
@@ -39,7 +41,36 @@
         e.preventDefault();  
         send_message(e.target.form);  
     };  
+    function startRecording() {
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.start();
+
+        recognition.onresult = function(event) {
+            const transcript = event.results[0][0].transcript;
+            document.getElementById('question').value += transcript;
+        };
+
+        recognition.onspeechend = function() {
+            recognition.stop();
+        };
+
+        recognition.onerror = function(event) {
+            console.error('Speech recognition error detected: ' + event.error);
+        };
+    }
   
+    chatForm.onsubmit = (e) => {  
+        e.preventDefault();  
+        send_message(e.target);  
+    };  
+    chatSend.onclick = (e) => {  
+        e.preventDefault();  
+        send_message(e.target.form);  
+    };  
     function send_message(f) {  
         let msg = f[0].value;  
         const data = {  
