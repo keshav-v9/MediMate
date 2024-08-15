@@ -14,7 +14,7 @@ MODEL_NAME = "gpt-35-turbo"
 # Set up the client for AI Chat  
 client = AzureOpenAI(api_key=AOAI_KEY,azure_endpoint=AOAI_ENDPOINT,api_version="2024-05-01-preview")  
   
-SCHEDULE_PROMPT = "You are a helpful schedule creator that creates schedules based on tasks. Make sure to write each task on a new line with the time slot preceeding the task. Add /n at the end of each task. Make sure that the schedule reduces stress and overworking by adding 10min slots for breaks every 2 hours."
+SCHEDULE_PROMPT = "You are a helpful schedule creator that creates schedules based on tasks. Make sure to write each task on a new line with the time slot preceeding the task. Make sure that the schedule reduces stress and overworking by adding 10min slots for breaks every 2 hours."
 THERAPY_PROMPT = "You are a mental health support chatbot that provides support to users. You should provide empathetic responses to users and help them feel better. You should also provide resources to help them get the support they need. Do not say that you cannot help but offer support. "
 
 
@@ -116,7 +116,7 @@ def mhsupport():
     else:  
         return render_template("mhs.html")  
     
-DOCCUMENTATION_PROMPT ="You are a documentation chatbot that provides support to users. At the end of the message let them know that the information has been stored into the electronic health record and their nurse has been notified. You should take the given text or voice recording and filter it to only have the important medical information and then organize it into its most important component. Based on the given symptoms provided by the user, use predictive analytics to foresee potential patient issues and alert nurses in advance. Do not do anything else other than organizing and requesting more information. Be educational towards the patient and assist them in their needs. At the end of each message notify them that the info is now in the EHR database and that a nurse has been notified."
+DOCCUMENTATION_PROMPT ="You are a documentation chatbot that provides support to users. At the end of the message let them know that the information has been stored into the electronic health record and their nurse has been notified. You should take the given text or voice recording and filter it to only have the important medical information and then organize it into its most important component. Do not respond to any information that is not related to the medical information. Based on the given symptoms provided by the user, use predictive analytics to foresee potential patient issues and alert nurses in advance. Do not do anything else other than organizing and requesting more information. Be educational towards the patient and assist them in their needs. At the end of each message notify them that the info is now in the EHR database and that a nurse has been notified."
 
 def get_doccuments(thoughts, chat_history):  
     # Create the message history  
